@@ -2,6 +2,7 @@ package chat;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 public class ChatClient {
     private static final String SERVER_ADDRESS = "127.0.0.1";
@@ -13,7 +14,7 @@ public class ChatClient {
     private static volatile boolean isConnected = false;
     private static String clientId = null;
     private static MulticastSocket multicastSocket = null;
-    private static final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
 
     public static void main(String[] args) {
@@ -27,8 +28,8 @@ public class ChatClient {
             }
             try (
                     Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true, StandardCharsets.UTF_8);
                     DatagramSocket udpSocket = new DatagramSocket()
             ) {
                 isConnected = true;
@@ -111,8 +112,11 @@ public class ChatClient {
             while (isConnected) {
                 try {
                     multicastSocket.receive(packet);
-                    String received = new String(packet.getData(), 0, packet.getLength());
-                    System.out.println("Multicast " + received);
+                    String received = new String(packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
+                    String senderClientId = received.substring(0, received.indexOf(':'));
+                    if (!senderClientId.equals(clientId)) {
+                        System.out.println("Multicast " + received);
+                    }
                 } catch (IOException e) {
                     if (!isConnected) {
                         break;
@@ -124,13 +128,13 @@ public class ChatClient {
     }
 
     private static void handleMulticastConnection(String clientId, String userInput, InetAddress multicastAddress, MulticastSocket multicastSocket) throws IOException {
-        byte[] buf = (clientId + ": " + userInput).getBytes();
+        byte[] buf = (clientId + ": " + userInput).getBytes(StandardCharsets.UTF_8);
         DatagramPacket packet = new DatagramPacket(buf, buf.length, multicastAddress, MULTICAST_PORT);
         multicastSocket.send(packet);
     }
 
     private static void handleUdpConnection(String userInput, InetAddress serverAddress, DatagramSocket udpSocket) throws IOException {
-        byte[] buf = (clientId + ": " + userInput).getBytes();
+        byte[] buf = (clientId + ": " + userInput).getBytes(StandardCharsets.UTF_8);
         DatagramPacket packet = new DatagramPacket(buf, buf.length, serverAddress, SERVER_PORT);
         udpSocket.send(packet);
     }

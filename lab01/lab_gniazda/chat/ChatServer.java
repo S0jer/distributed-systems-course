@@ -4,6 +4,7 @@ package chat;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 public class ChatServer {
@@ -38,16 +39,19 @@ public class ChatServer {
 
         public void run() {
             try (
-                    BufferedReader in = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
-                    PrintWriter out = new PrintWriter(tcpSocket.getOutputStream(), true)
+                    BufferedReader in = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream(), StandardCharsets.UTF_8));
+                    PrintWriter out = new PrintWriter(tcpSocket.getOutputStream(), true, StandardCharsets.UTF_8)
             ) {
                 clientId = in.readLine();
                 clients.put(clientId, out);
 
                 String message;
                 while ((message = in.readLine()) != null) {
-                    for (PrintWriter writer : clients.values()) {
-                        writer.println(clientId + ": " + message);
+                    for (String receiverId : clients.keySet()) {
+                        if (!Objects.equals(receiverId, clientId)) {
+                            PrintWriter writer = clients.get(receiverId);
+                            writer.println(clientId + ": " + message);
+                        }
                     }
                 }
             } catch (IOException e) {
@@ -84,9 +88,16 @@ public class ChatServer {
                     udpSocket.receive(receivePacket);
 
                     String message = new String(receivePacket.getData(), 0, receivePacket.getLength(), StandardCharsets.UTF_8);
+                    int delimiterIndex = message.indexOf(":");
+                    if (delimiterIndex == -1) continue;
 
-                    for (PrintWriter writer : ChatServer.clients.values()) {
-                        writer.println("UDP " + message);
+                    String clientId = message.substring(0, delimiterIndex);
+
+                    for (String receiverId : clients.keySet()) {
+                        if (!Objects.equals(receiverId, clientId)) {
+                            PrintWriter writer = clients.get(receiverId);
+                            writer.println("UDP " + message);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -95,7 +106,6 @@ public class ChatServer {
             udpSocket.close();
         }
     }
-
 }
 
 
