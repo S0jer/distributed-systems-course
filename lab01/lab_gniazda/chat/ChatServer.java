@@ -42,8 +42,18 @@ public class ChatServer {
                     BufferedReader in = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream(), StandardCharsets.UTF_8));
                     PrintWriter out = new PrintWriter(tcpSocket.getOutputStream(), true, StandardCharsets.UTF_8)
             ) {
-                clientId = in.readLine();
-                clients.put(clientId, out);
+                while (true) {
+                    clientId = in.readLine();
+                    synchronized (clients) {
+                        if (clients.containsKey(clientId)) {
+                            out.println("ClientIdTaken");
+                        } else {
+                            clients.put(clientId, out);
+                            out.println("ClientIdAccepted");
+                            break;
+                        }
+                    }
+                }
 
                 String message;
                 while ((message = in.readLine()) != null) {

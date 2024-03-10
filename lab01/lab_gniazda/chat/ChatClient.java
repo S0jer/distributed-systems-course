@@ -41,12 +41,7 @@ public class ChatClient {
                 InetAddress multicastAddress = InetAddress.getByName(MULTICAST_ADDRESS);
                 multicastSocket.joinGroup(new InetSocketAddress(multicastAddress, MULTICAST_PORT), networkInterface);
 
-                if (clientId == null) {
-                    System.out.print("Enter your ID/Nick: ");
-                    clientId = stdIn.readLine();
-                }
-                out.println(clientId);
-
+                handleSettingClientId(out, in);
                 handleThreads(in, multicastSocket);
                 handleClientModes(serverAddress, udpSocket, clientId, multicastAddress, multicastSocket, out);
 
@@ -57,6 +52,22 @@ public class ChatClient {
                 attemptReconnection();
             }
         }
+    }
+
+    private static void handleSettingClientId(PrintWriter out, BufferedReader in) throws IOException {
+        String response;
+        do {
+            if (clientId == null) {
+                System.out.print("Enter your ID/Nick: ");
+                clientId = stdIn.readLine();
+            }
+            out.println(clientId);
+            response = in.readLine();
+            if (response.equals("ClientIdTaken")) {
+                System.out.println("This ID/Nick is already taken. Please choose a different one.");
+                clientId = null;
+            }
+        } while (!response.equals("ClientIdAccepted"));
     }
 
     private static void handleClientModes(InetAddress serverAddress, DatagramSocket udpSocket, String clientId, InetAddress multicastAddress, MulticastSocket multicastSocket, PrintWriter out) throws IOException {
