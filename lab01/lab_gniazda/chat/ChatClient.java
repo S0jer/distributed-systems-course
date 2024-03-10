@@ -60,25 +60,31 @@ public class ChatClient {
 
     private static void handleClientModes(InetAddress serverAddress, DatagramSocket udpSocket, String clientId, InetAddress multicastAddress, MulticastSocket multicastSocket, PrintWriter out) throws IOException {
         boolean useUdp = false;
+        boolean useTcp = true;
         boolean useMulticast = false;
         String userInput;
         while ((userInput = stdIn.readLine()) != null && isConnected) {
             if (userInput.equalsIgnoreCase("U")) {
                 useUdp = true;
+                useTcp = false;
                 useMulticast = false;
                 System.out.println("UDP mode ON. Type your message:");
             } else if (userInput.equalsIgnoreCase("M")) {
                 useUdp = false;
+                useTcp = false;
                 useMulticast = true;
                 System.out.println("Multicast mode ON. Type your message:");
+            } else if (userInput.equalsIgnoreCase("T")) {
+                useUdp = false;
+                useTcp = true;
+                useMulticast = false;
+                System.out.println("TCP mode ON. Type your message:");
             } else {
                 if (useUdp) {
                     handleUdpConnection(userInput, serverAddress, udpSocket);
-                    useUdp = false;
                 } else if (useMulticast) {
                     handleMulticastConnection(clientId, userInput, multicastAddress, multicastSocket);
-                    useMulticast = false;
-                } else {
+                } else if (useTcp) {
                     out.println(userInput);
                 }
             }
@@ -124,13 +130,7 @@ public class ChatClient {
     }
 
     private static void handleUdpConnection(String userInput, InetAddress serverAddress, DatagramSocket udpSocket) throws IOException {
-        byte[] buf = userInput.getBytes();
-//                            byte[] buf = (".--.\n" +
-//                                                        "|__| .-------.\n" +
-//                                                        "|=.| |.-----.|\n" +
-//                                                        "|--| || KCK ||\n" +
-//                                                        "|  | |'-----'|\n" +
-//                                                        "|__|~')_____('".getBytes()).getBytes();
+        byte[] buf = (clientId + ": " + userInput).getBytes();
         DatagramPacket packet = new DatagramPacket(buf, buf.length, serverAddress, SERVER_PORT);
         udpSocket.send(packet);
     }

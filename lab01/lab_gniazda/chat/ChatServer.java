@@ -86,7 +86,7 @@ public class ChatServer {
                     String message = new String(receivePacket.getData(), 0, receivePacket.getLength(), StandardCharsets.UTF_8);
 
                     for (PrintWriter writer : ChatServer.clients.values()) {
-                        writer.println("UDP: " + message);
+                        writer.println("UDP " + message);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
