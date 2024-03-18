@@ -1,5 +1,6 @@
 package org.agh.exception;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.*;
@@ -44,6 +45,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return "404";
     }
 
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        String htmlContent = readFileAsString("src/main/resources/templates/404.html");
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.TEXT_HTML);
+
+        return new ResponseEntity<>(htmlContent, responseHeaders, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(HttpServerErrorException.InternalServerError.class)
     public String handleInternalServerError(HttpServletRequest request, HttpServerErrorException.InternalServerError ex) {
         request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -57,16 +68,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return "500";
     }
 
-
     @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String htmlContent = readFileAsString("src/main/resources/templates/404.html");
+    @Nullable
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setContentType(MediaType.TEXT_HTML);
+        if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR) {
+            String htmlContent = readFileAsString("src/main/resources/templates/500.html");
 
-        return new ResponseEntity<>(htmlContent, responseHeaders, HttpStatus.NOT_FOUND);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setContentType(MediaType.TEXT_HTML);
+
+            return new ResponseEntity<>(htmlContent, responseHeaders, statusCode);
+        }
+
+        return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
+
 
     private String readFileAsString(String filePath) {
         try {
