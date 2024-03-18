@@ -12,4 +12,8 @@ public class ViewService {
     public String getResultPage() {
         return "response";
     }
+
+    public String getLoginPage() {
+        return "start";
+    }
 }

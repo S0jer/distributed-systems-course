@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(QuoteServiceException.class)
     public String handleQuoteServiceError(HttpServletRequest request, QuoteServiceException ex) {
@@ -29,8 +30,21 @@ public class GlobalExceptionHandler {
         return "404";
     }
 
+    @ExceptionHandler(HttpClientErrorException.NotFound.class)
+    public String handleNotFound(HttpServletRequest request, HttpClientErrorException.NotFound ex) {
+        request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.NOT_FOUND.value());
+        return "404";
+    }
+
     @ExceptionHandler(HttpServerErrorException.InternalServerError.class)
-    public String handle(HttpServletRequest request, HttpServerErrorException.InternalServerError ex) {
+    public String handleInternalServerError(HttpServletRequest request, HttpServerErrorException.InternalServerError ex) {
+        request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return "500";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleAllUncaughtException(HttpServletRequest request, Exception ex) {
+        logger.error("Unhandled exception occurred", ex);
         request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.INTERNAL_SERVER_ERROR.value());
         return "500";
     }
