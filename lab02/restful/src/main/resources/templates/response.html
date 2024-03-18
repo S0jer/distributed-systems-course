@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Player Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        h2, h3 {
+            color: #00529B;
+        }
+        .data-label {
+            font-weight: bold;
+        }
+        .data-value {
+            margin-left: 10px;
+        }
+        .statistics-section, .quote-section {
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00529B;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #003D73;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Player Info</h2>
+    <div>
+        <span class="data-label">First Name:</span><span class="data-value" th:text="${player.first_name}"></span><br/>
+        <span class="data-label">Last Name:</span><span class="data-value" th:text="${player.last_name}"></span><br/>
+        <span class="data-label">Position:</span><span class="data-value" th:text="${player.position}"></span><br/>
+        <span class="data-label">Height:</span><span class="data-value" th:text="${player.height}"></span><br/>
+        <span class="data-label">Weight:</span><span class="data-value" th:text="${player.weight}"></span><br/>
+        <span class="data-label">Jersey number:</span><span class="data-value" th:text="${player.jersey_number}"></span><br/>
+        <span class="data-label">College:</span><span class="data-value" th:text="${player.college}"></span><br/>
+        <span class="data-label">Coutry:</span><span class="data-value" th:text="${player.country}"></span><br/>
+        <span class="data-label">Draft year:</span><span class="data-value" th:text="${player.draft_year}"></span><br/>
+        <span class="data-label">Draft round:</span><span class="data-value" th:text="${player.draft_round}"></span><br/>
+        <span class="data-label">Draft number:</span><span class="data-value" th:text="${player.draft_number}"></span><br/>
+    </div>
+
+    <h2>Player Team</h2>
+    <div>
+        <span class="data-label">Team name:</span><span class="data-value" th:text="${player.team.name}"></span><br/>
+        <span class="data-label">Team full name:</span><span class="data-value" th:text="${player.team.full_name}"></span><br/>
+        <span class="data-label">City:</span><span class="data-value" th:text="${player.team.city}"></span><br/>
+        <span class="data-label">Conference:</span><span class="data-value" th:text="${player.team.conference}"></span><br/>
+    </div>
+
+    <div class="team-section">
+        <h3>Team roster:</h3>
+        <div th:each="p : ${team}">
+            <span class="data-label"> </span>
+            <span class="data-value" th:text="${p.first_name + ' ' + p.last_name}"></span><br/>
+        </div>
+    </div>
+
+    <div class="quote-section">
+        <h3>Motivational Quote:</h3>
+        <p th:text="${quote}">Motivational Quote</p>
+    </div>
+    <a href="/nba/search" class="btn">Back to Home</a>
+</div>
+</body>
+</html>
