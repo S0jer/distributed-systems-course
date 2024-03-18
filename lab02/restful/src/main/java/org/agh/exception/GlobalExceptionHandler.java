@@ -2,11 +2,19 @@ package org.agh.exception;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
@@ -48,4 +56,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.INTERNAL_SERVER_ERROR.value());
         return "500";
     }
+
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        String htmlContent = readFileAsString("src/main/resources/templates/404.html");
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.TEXT_HTML);
+
+        return new ResponseEntity<>(htmlContent, responseHeaders, HttpStatus.NOT_FOUND);
+    }
+
+    private String readFileAsString(String filePath) {
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get(filePath));
+            return new String(encoded, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            return "<html><body><h1>Error</h1><p>Error reading the error page content.</p></body></html>";
+        }
+    }
+
 }
