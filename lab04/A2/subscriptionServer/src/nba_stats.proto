@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option java_outer_classname = "NbaStatsProto";
+option java_multiple_files = true;
+option java_package = "gen";
+
+service NbaStats {
+  rpc SubscribeNbaStats(NbaStatsSubscription) returns (stream PlayerStatisticsResponse);
+  rpc GetSeasonAverages(SeasonAveragesRequest) returns (SeasonAveragesResponse);
+}
+
+message NbaStatsSubscription {
+  int32 playerId = 1;
+  repeated string seasons = 2;
+}
+
+message SeasonAveragesRequest {
+  int32 playerId = 1;
+  string season = 2;
+}
+
+message PlayerStatisticsResponse {
+  string playerId = 1;
+  repeated GameStatistics games = 2;
+}
+
+message SeasonAveragesResponse {
+  SeasonStatistics averages = 1;
+}
+
+message SeasonStatistics {
+  string season = 1;
+  DetailedStatistics averageStats = 2;
+}
+
+message GameStatistics {
+  string gameId = 1;
+  string date = 2;
+  string opponent = 3;
+  GameOutcome outcome = 4;
+  GamePerformance gamePerformanceGrade = 5;
+  DetailedStatistics stats = 6;
+}
+
+message DetailedStatistics {
+  float minutes = 1;
+  float points = 2;
+  FieldGoalStats fieldGoals = 3;
+  FieldGoalStats threePointers = 4;
+  FreeThrowStats freeThrows = 5;
+  float rebounds = 6;
+  float assists = 7;
+  float steals = 8;
+  float blocks = 9;
+  float personalFouls = 10;
+  float turnovers = 11;
+}
+
+message FieldGoalStats {
+  float attempts = 1;
+  float made = 2;
+  float percentage = 3;
+}
+
+message FreeThrowStats {
+  float attempts = 1;
+  float made = 2;
+  float percentage = 3;
+}
+
+enum GameOutcome {
+  WIN = 0;
+  LOSS = 1;
+}
+
+enum GamePerformance {
+  TERRIBLE = 0;
+  BAD = 1;
+  AVERAGE = 2;
+  GOOD = 3;
+  EXCELLENT = 4;
+}
