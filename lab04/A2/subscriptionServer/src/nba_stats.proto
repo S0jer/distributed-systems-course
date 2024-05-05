@@ -10,13 +10,15 @@ service NbaStats {
 }
 
 message NbaStatsSubscription {
-  int32 playerId = 1;
-  repeated string seasons = 2;
+  int32 clientId = 1;
+  repeated int32 playerIds = 2;
+  repeated string seasons = 3;
 }
 
 message SeasonAveragesRequest {
-  int32 playerId = 1;
-  string season = 2;
+  int32 clientId = 1;
+  int32 playerId = 2;
+  string season = 3;
 }
 
 message PlayerStatisticsResponse {

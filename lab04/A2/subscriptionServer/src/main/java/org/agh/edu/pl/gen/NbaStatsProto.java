@@ -78,38 +78,39 @@ public final class NbaStatsProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017nba_stats.proto\"9\n\024NbaStatsSubscriptio" +
-      "n\022\020\n\010playerId\030\001 \001(\005\022\017\n\007seasons\030\002 \003(\t\"9\n\025" +
-      "SeasonAveragesRequest\022\020\n\010playerId\030\001 \001(\005\022" +
-      "\016\n\006season\030\002 \001(\t\"L\n\030PlayerStatisticsRespo" +
-      "nse\022\020\n\010playerId\030\001 \001(\t\022\036\n\005games\030\002 \003(\0132\017.G" +
-      "ameStatistics\"=\n\026SeasonAveragesResponse\022" +
-      "#\n\010averages\030\001 \001(\0132\021.SeasonStatistics\"M\n\020" +
-      "SeasonStatistics\022\016\n\006season\030\001 \001(\t\022)\n\014aver" +
-      "ageStats\030\002 \001(\0132\023.DetailedStatistics\"\263\001\n\016" +
-      "GameStatistics\022\016\n\006gameId\030\001 \001(\t\022\014\n\004date\030\002" +
-      " \001(\t\022\020\n\010opponent\030\003 \001(\t\022\035\n\007outcome\030\004 \001(\0162" +
-      "\014.GameOutcome\022.\n\024gamePerformanceGrade\030\005 " +
-      "\001(\0162\020.GamePerformance\022\"\n\005stats\030\006 \001(\0132\023.D" +
-      "etailedStatistics\"\224\002\n\022DetailedStatistics" +
-      "\022\017\n\007minutes\030\001 \001(\002\022\016\n\006points\030\002 \001(\002\022#\n\nfie" +
-      "ldGoals\030\003 \001(\0132\017.FieldGoalStats\022&\n\rthreeP" +
-      "ointers\030\004 \001(\0132\017.FieldGoalStats\022#\n\nfreeTh" +
-      "rows\030\005 \001(\0132\017.FreeThrowStats\022\020\n\010rebounds\030" +
-      "\006 \001(\002\022\017\n\007assists\030\007 \001(\002\022\016\n\006steals\030\010 \001(\002\022\016" +
-      "\n\006blocks\030\t \001(\002\022\025\n\rpersonalFouls\030\n \001(\002\022\021\n" +
-      "\tturnovers\030\013 \001(\002\"D\n\016FieldGoalStats\022\020\n\010at" +
-      "tempts\030\001 \001(\002\022\014\n\004made\030\002 \001(\002\022\022\n\npercentage" +
-      "\030\003 \001(\002\"D\n\016FreeThrowStats\022\020\n\010attempts\030\001 \001" +
-      "(\002\022\014\n\004made\030\002 \001(\002\022\022\n\npercentage\030\003 \001(\002* \n\013" +
-      "GameOutcome\022\007\n\003WIN\020\000\022\010\n\004LOSS\020\001*N\n\017GamePe" +
-      "rformance\022\014\n\010TERRIBLE\020\000\022\007\n\003BAD\020\001\022\013\n\007AVER" +
-      "AGE\020\002\022\010\n\004GOOD\020\003\022\r\n\tEXCELLENT\020\0042\231\001\n\010NbaSt" +
-      "ats\022G\n\021SubscribeNbaStats\022\025.NbaStatsSubsc" +
-      "ription\032\031.PlayerStatisticsResponse0\001\022D\n\021" +
-      "GetSeasonAverages\022\026.SeasonAveragesReques" +
-      "t\032\027.SeasonAveragesResponseB\026\n\003genB\rNbaSt" +
-      "atsProtoP\001b\006proto3"
+      "\n\017nba_stats.proto\"L\n\024NbaStatsSubscriptio" +
+      "n\022\020\n\010clientId\030\001 \001(\005\022\021\n\tplayerIds\030\002 \003(\005\022\017" +
+      "\n\007seasons\030\003 \003(\t\"K\n\025SeasonAveragesRequest" +
+      "\022\020\n\010clientId\030\001 \001(\005\022\020\n\010playerId\030\002 \001(\005\022\016\n\006" +
+      "season\030\003 \001(\t\"L\n\030PlayerStatisticsResponse" +
+      "\022\020\n\010playerId\030\001 \001(\t\022\036\n\005games\030\002 \003(\0132\017.Game" +
+      "Statistics\"=\n\026SeasonAveragesResponse\022#\n\010" +
+      "averages\030\001 \001(\0132\021.SeasonStatistics\"M\n\020Sea" +
+      "sonStatistics\022\016\n\006season\030\001 \001(\t\022)\n\014average" +
+      "Stats\030\002 \001(\0132\023.DetailedStatistics\"\263\001\n\016Gam" +
+      "eStatistics\022\016\n\006gameId\030\001 \001(\t\022\014\n\004date\030\002 \001(" +
+      "\t\022\020\n\010opponent\030\003 \001(\t\022\035\n\007outcome\030\004 \001(\0162\014.G" +
+      "ameOutcome\022.\n\024gamePerformanceGrade\030\005 \001(\016" +
+      "2\020.GamePerformance\022\"\n\005stats\030\006 \001(\0132\023.Deta" +
+      "iledStatistics\"\224\002\n\022DetailedStatistics\022\017\n" +
+      "\007minutes\030\001 \001(\002\022\016\n\006points\030\002 \001(\002\022#\n\nfieldG" +
+      "oals\030\003 \001(\0132\017.FieldGoalStats\022&\n\rthreePoin" +
+      "ters\030\004 \001(\0132\017.FieldGoalStats\022#\n\nfreeThrow" +
+      "s\030\005 \001(\0132\017.FreeThrowStats\022\020\n\010rebounds\030\006 \001" +
+      "(\002\022\017\n\007assists\030\007 \001(\002\022\016\n\006steals\030\010 \001(\002\022\016\n\006b" +
+      "locks\030\t \001(\002\022\025\n\rpersonalFouls\030\n \001(\002\022\021\n\ttu" +
+      "rnovers\030\013 \001(\002\"D\n\016FieldGoalStats\022\020\n\010attem" +
+      "pts\030\001 \001(\002\022\014\n\004made\030\002 \001(\002\022\022\n\npercentage\030\003 " +
+      "\001(\002\"D\n\016FreeThrowStats\022\020\n\010attempts\030\001 \001(\002\022" +
+      "\014\n\004made\030\002 \001(\002\022\022\n\npercentage\030\003 \001(\002* \n\013Gam" +
+      "eOutcome\022\007\n\003WIN\020\000\022\010\n\004LOSS\020\001*N\n\017GamePerfo" +
+      "rmance\022\014\n\010TERRIBLE\020\000\022\007\n\003BAD\020\001\022\013\n\007AVERAGE" +
+      "\020\002\022\010\n\004GOOD\020\003\022\r\n\tEXCELLENT\020\0042\231\001\n\010NbaStats" +
+      "\022G\n\021SubscribeNbaStats\022\025.NbaStatsSubscrip" +
+      "tion\032\031.PlayerStatisticsResponse0\001\022D\n\021Get" +
+      "SeasonAverages\022\026.SeasonAveragesRequest\032\027" +
+      ".SeasonAveragesResponseB\026\n\003genB\rNbaStats" +
+      "ProtoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -120,13 +121,13 @@ public final class NbaStatsProto {
     internal_static_NbaStatsSubscription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NbaStatsSubscription_descriptor,
-        new java.lang.String[] { "PlayerId", "Seasons", });
+        new java.lang.String[] { "ClientId", "PlayerIds", "Seasons", });
     internal_static_SeasonAveragesRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_SeasonAveragesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SeasonAveragesRequest_descriptor,
-        new java.lang.String[] { "PlayerId", "Season", });
+        new java.lang.String[] { "ClientId", "PlayerId", "Season", });
     internal_static_PlayerStatisticsResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_PlayerStatisticsResponse_fieldAccessorTable = new

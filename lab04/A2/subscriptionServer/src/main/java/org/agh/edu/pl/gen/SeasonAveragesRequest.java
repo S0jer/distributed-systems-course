@@ -42,10 +42,21 @@ private static final long serialVersionUID = 0L;
             SeasonAveragesRequest.class, SeasonAveragesRequest.Builder.class);
   }
 
-  public static final int PLAYERID_FIELD_NUMBER = 1;
+  public static final int CLIENTID_FIELD_NUMBER = 1;
+  private int clientId_ = 0;
+  /**
+   * <code>int32 clientId = 1;</code>
+   * @return The clientId.
+   */
+  @java.lang.Override
+  public int getClientId() {
+    return clientId_;
+  }
+
+  public static final int PLAYERID_FIELD_NUMBER = 2;
   private int playerId_ = 0;
   /**
-   * <code>int32 playerId = 1;</code>
+   * <code>int32 playerId = 2;</code>
    * @return The playerId.
    */
   @java.lang.Override
@@ -53,11 +64,11 @@ private static final long serialVersionUID = 0L;
     return playerId_;
   }
 
-  public static final int SEASON_FIELD_NUMBER = 2;
+  public static final int SEASON_FIELD_NUMBER = 3;
   @SuppressWarnings("serial")
   private volatile java.lang.Object season_ = "";
   /**
-   * <code>string season = 2;</code>
+   * <code>string season = 3;</code>
    * @return The season.
    */
   @java.lang.Override
@@ -74,7 +85,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string season = 2;</code>
+   * <code>string season = 3;</code>
    * @return The bytes for season.
    */
   @java.lang.Override
@@ -106,11 +117,14 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (clientId_ != 0) {
+      output.writeInt32(1, clientId_);
+    }
     if (playerId_ != 0) {
-      output.writeInt32(1, playerId_);
+      output.writeInt32(2, playerId_);
     }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(season_)) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, season_);
+      com.google.protobuf.GeneratedMessage.writeString(output, 3, season_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -121,12 +135,16 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (clientId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, clientId_);
+    }
     if (playerId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, playerId_);
+        .computeInt32Size(2, playerId_);
     }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(season_)) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, season_);
+      size += com.google.protobuf.GeneratedMessage.computeStringSize(3, season_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -143,6 +161,8 @@ private static final long serialVersionUID = 0L;
     }
     SeasonAveragesRequest other = (SeasonAveragesRequest) obj;
 
+    if (getClientId()
+        != other.getClientId()) return false;
     if (getPlayerId()
         != other.getPlayerId()) return false;
     if (!getSeason()
@@ -158,6 +178,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    hash = (37 * hash) + CLIENTID_FIELD_NUMBER;
+    hash = (53 * hash) + getClientId();
     hash = (37 * hash) + PLAYERID_FIELD_NUMBER;
     hash = (53 * hash) + getPlayerId();
     hash = (37 * hash) + SEASON_FIELD_NUMBER;
@@ -293,6 +315,7 @@ private static final long serialVersionUID = 0L;
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
+      clientId_ = 0;
       playerId_ = 0;
       season_ = "";
       return this;
@@ -329,9 +352,12 @@ private static final long serialVersionUID = 0L;
     private void buildPartial0(SeasonAveragesRequest result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.playerId_ = playerId_;
+        result.clientId_ = clientId_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
+        result.playerId_ = playerId_;
+      }
+      if (((from_bitField0_ & 0x00000004) != 0)) {
         result.season_ = season_;
       }
     }
@@ -348,12 +374,15 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(SeasonAveragesRequest other) {
       if (other == SeasonAveragesRequest.getDefaultInstance()) return this;
+      if (other.getClientId() != 0) {
+        setClientId(other.getClientId());
+      }
       if (other.getPlayerId() != 0) {
         setPlayerId(other.getPlayerId());
       }
       if (!other.getSeason().isEmpty()) {
         season_ = other.season_;
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         onChanged();
       }
       this.mergeUnknownFields(other.getUnknownFields());
@@ -383,15 +412,20 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 8: {
-              playerId_ = input.readInt32();
+              clientId_ = input.readInt32();
               bitField0_ |= 0x00000001;
               break;
             } // case 8
-            case 18: {
-              season_ = input.readStringRequireUtf8();
+            case 16: {
+              playerId_ = input.readInt32();
               bitField0_ |= 0x00000002;
               break;
-            } // case 18
+            } // case 16
+            case 26: {
+              season_ = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000004;
+              break;
+            } // case 26
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -409,9 +443,41 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
+    private int clientId_ ;
+    /**
+     * <code>int32 clientId = 1;</code>
+     * @return The clientId.
+     */
+    @java.lang.Override
+    public int getClientId() {
+      return clientId_;
+    }
+    /**
+     * <code>int32 clientId = 1;</code>
+     * @param value The clientId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setClientId(int value) {
+
+      clientId_ = value;
+      bitField0_ |= 0x00000001;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 clientId = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearClientId() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      clientId_ = 0;
+      onChanged();
+      return this;
+    }
+
     private int playerId_ ;
     /**
-     * <code>int32 playerId = 1;</code>
+     * <code>int32 playerId = 2;</code>
      * @return The playerId.
      */
     @java.lang.Override
@@ -419,23 +485,23 @@ private static final long serialVersionUID = 0L;
       return playerId_;
     }
     /**
-     * <code>int32 playerId = 1;</code>
+     * <code>int32 playerId = 2;</code>
      * @param value The playerId to set.
      * @return This builder for chaining.
      */
     public Builder setPlayerId(int value) {
 
       playerId_ = value;
-      bitField0_ |= 0x00000001;
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 playerId = 1;</code>
+     * <code>int32 playerId = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearPlayerId() {
-      bitField0_ = (bitField0_ & ~0x00000001);
+      bitField0_ = (bitField0_ & ~0x00000002);
       playerId_ = 0;
       onChanged();
       return this;
@@ -443,7 +509,7 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object season_ = "";
     /**
-     * <code>string season = 2;</code>
+     * <code>string season = 3;</code>
      * @return The season.
      */
     public java.lang.String getSeason() {
@@ -459,7 +525,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string season = 2;</code>
+     * <code>string season = 3;</code>
      * @return The bytes for season.
      */
     public com.google.protobuf.ByteString
@@ -476,7 +542,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string season = 2;</code>
+     * <code>string season = 3;</code>
      * @param value The season to set.
      * @return This builder for chaining.
      */
@@ -484,22 +550,22 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       season_ = value;
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
     /**
-     * <code>string season = 2;</code>
+     * <code>string season = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearSeason() {
       season_ = getDefaultInstance().getSeason();
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000004);
       onChanged();
       return this;
     }
     /**
-     * <code>string season = 2;</code>
+     * <code>string season = 3;</code>
      * @param value The bytes for season to set.
      * @return This builder for chaining.
      */
@@ -508,7 +574,7 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       season_ = value;
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }

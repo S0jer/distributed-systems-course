@@ -26,6 +26,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private NbaStatsSubscription() {
+    playerIds_ = emptyIntList();
     seasons_ =
         com.google.protobuf.LazyStringArrayList.emptyList();
   }
@@ -43,23 +44,53 @@ private static final long serialVersionUID = 0L;
             NbaStatsSubscription.class, NbaStatsSubscription.Builder.class);
   }
 
-  public static final int PLAYERID_FIELD_NUMBER = 1;
-  private int playerId_ = 0;
+  public static final int CLIENTID_FIELD_NUMBER = 1;
+  private int clientId_ = 0;
   /**
-   * <code>int32 playerId = 1;</code>
-   * @return The playerId.
+   * <code>int32 clientId = 1;</code>
+   * @return The clientId.
    */
   @java.lang.Override
-  public int getPlayerId() {
-    return playerId_;
+  public int getClientId() {
+    return clientId_;
   }
 
-  public static final int SEASONS_FIELD_NUMBER = 2;
+  public static final int PLAYERIDS_FIELD_NUMBER = 2;
+  @SuppressWarnings("serial")
+  private com.google.protobuf.Internal.IntList playerIds_ =
+      emptyIntList();
+  /**
+   * <code>repeated int32 playerIds = 2;</code>
+   * @return A list containing the playerIds.
+   */
+  @java.lang.Override
+  public java.util.List<java.lang.Integer>
+      getPlayerIdsList() {
+    return playerIds_;
+  }
+  /**
+   * <code>repeated int32 playerIds = 2;</code>
+   * @return The count of playerIds.
+   */
+  public int getPlayerIdsCount() {
+    return playerIds_.size();
+  }
+  /**
+   * <code>repeated int32 playerIds = 2;</code>
+   * @param index The index of the element to return.
+   * @return The playerIds at the given index.
+   */
+  public int getPlayerIds(int index) {
+    return playerIds_.getInt(index);
+  }
+  private int playerIdsMemoizedSerializedSize = -1;
+
+  public static final int SEASONS_FIELD_NUMBER = 3;
   @SuppressWarnings("serial")
   private com.google.protobuf.LazyStringArrayList seasons_ =
       com.google.protobuf.LazyStringArrayList.emptyList();
   /**
-   * <code>repeated string seasons = 2;</code>
+   * <code>repeated string seasons = 3;</code>
    * @return A list containing the seasons.
    */
   public com.google.protobuf.ProtocolStringList
@@ -67,14 +98,14 @@ private static final long serialVersionUID = 0L;
     return seasons_;
   }
   /**
-   * <code>repeated string seasons = 2;</code>
+   * <code>repeated string seasons = 3;</code>
    * @return The count of seasons.
    */
   public int getSeasonsCount() {
     return seasons_.size();
   }
   /**
-   * <code>repeated string seasons = 2;</code>
+   * <code>repeated string seasons = 3;</code>
    * @param index The index of the element to return.
    * @return The seasons at the given index.
    */
@@ -82,7 +113,7 @@ private static final long serialVersionUID = 0L;
     return seasons_.get(index);
   }
   /**
-   * <code>repeated string seasons = 2;</code>
+   * <code>repeated string seasons = 3;</code>
    * @param index The index of the value to return.
    * @return The bytes of the seasons at the given index.
    */
@@ -105,11 +136,19 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (playerId_ != 0) {
-      output.writeInt32(1, playerId_);
+    getSerializedSize();
+    if (clientId_ != 0) {
+      output.writeInt32(1, clientId_);
+    }
+    if (getPlayerIdsList().size() > 0) {
+      output.writeUInt32NoTag(18);
+      output.writeUInt32NoTag(playerIdsMemoizedSerializedSize);
+    }
+    for (int i = 0; i < playerIds_.size(); i++) {
+      output.writeInt32NoTag(playerIds_.getInt(i));
     }
     for (int i = 0; i < seasons_.size(); i++) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, seasons_.getRaw(i));
+      com.google.protobuf.GeneratedMessage.writeString(output, 3, seasons_.getRaw(i));
     }
     getUnknownFields().writeTo(output);
   }
@@ -120,9 +159,23 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (playerId_ != 0) {
+    if (clientId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, playerId_);
+        .computeInt32Size(1, clientId_);
+    }
+    {
+      int dataSize = 0;
+      for (int i = 0; i < playerIds_.size(); i++) {
+        dataSize += com.google.protobuf.CodedOutputStream
+          .computeInt32SizeNoTag(playerIds_.getInt(i));
+      }
+      size += dataSize;
+      if (!getPlayerIdsList().isEmpty()) {
+        size += 1;
+        size += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(dataSize);
+      }
+      playerIdsMemoizedSerializedSize = dataSize;
     }
     {
       int dataSize = 0;
@@ -147,8 +200,10 @@ private static final long serialVersionUID = 0L;
     }
     NbaStatsSubscription other = (NbaStatsSubscription) obj;
 
-    if (getPlayerId()
-        != other.getPlayerId()) return false;
+    if (getClientId()
+        != other.getClientId()) return false;
+    if (!getPlayerIdsList()
+        .equals(other.getPlayerIdsList())) return false;
     if (!getSeasonsList()
         .equals(other.getSeasonsList())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -162,8 +217,12 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + PLAYERID_FIELD_NUMBER;
-    hash = (53 * hash) + getPlayerId();
+    hash = (37 * hash) + CLIENTID_FIELD_NUMBER;
+    hash = (53 * hash) + getClientId();
+    if (getPlayerIdsCount() > 0) {
+      hash = (37 * hash) + PLAYERIDS_FIELD_NUMBER;
+      hash = (53 * hash) + getPlayerIdsList().hashCode();
+    }
     if (getSeasonsCount() > 0) {
       hash = (37 * hash) + SEASONS_FIELD_NUMBER;
       hash = (53 * hash) + getSeasonsList().hashCode();
@@ -299,7 +358,8 @@ private static final long serialVersionUID = 0L;
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
-      playerId_ = 0;
+      clientId_ = 0;
+      playerIds_ = emptyIntList();
       seasons_ =
           com.google.protobuf.LazyStringArrayList.emptyList();
       return this;
@@ -336,9 +396,13 @@ private static final long serialVersionUID = 0L;
     private void buildPartial0(NbaStatsSubscription result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.playerId_ = playerId_;
+        result.clientId_ = clientId_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
+        playerIds_.makeImmutable();
+        result.playerIds_ = playerIds_;
+      }
+      if (((from_bitField0_ & 0x00000004) != 0)) {
         seasons_.makeImmutable();
         result.seasons_ = seasons_;
       }
@@ -356,13 +420,24 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(NbaStatsSubscription other) {
       if (other == NbaStatsSubscription.getDefaultInstance()) return this;
-      if (other.getPlayerId() != 0) {
-        setPlayerId(other.getPlayerId());
+      if (other.getClientId() != 0) {
+        setClientId(other.getClientId());
+      }
+      if (!other.playerIds_.isEmpty()) {
+        if (playerIds_.isEmpty()) {
+          playerIds_ = other.playerIds_;
+          playerIds_.makeImmutable();
+          bitField0_ |= 0x00000002;
+        } else {
+          ensurePlayerIdsIsMutable();
+          playerIds_.addAll(other.playerIds_);
+        }
+        onChanged();
       }
       if (!other.seasons_.isEmpty()) {
         if (seasons_.isEmpty()) {
           seasons_ = other.seasons_;
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
         } else {
           ensureSeasonsIsMutable();
           seasons_.addAll(other.seasons_);
@@ -396,16 +471,32 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 8: {
-              playerId_ = input.readInt32();
+              clientId_ = input.readInt32();
               bitField0_ |= 0x00000001;
               break;
             } // case 8
+            case 16: {
+              int v = input.readInt32();
+              ensurePlayerIdsIsMutable();
+              playerIds_.addInt(v);
+              break;
+            } // case 16
             case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              ensurePlayerIdsIsMutable();
+              while (input.getBytesUntilLimit() > 0) {
+                playerIds_.addInt(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            } // case 18
+            case 26: {
               java.lang.String s = input.readStringRequireUtf8();
               ensureSeasonsIsMutable();
               seasons_.add(s);
               break;
-            } // case 18
+            } // case 26
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -423,34 +514,118 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private int playerId_ ;
+    private int clientId_ ;
     /**
-     * <code>int32 playerId = 1;</code>
-     * @return The playerId.
+     * <code>int32 clientId = 1;</code>
+     * @return The clientId.
      */
     @java.lang.Override
-    public int getPlayerId() {
-      return playerId_;
+    public int getClientId() {
+      return clientId_;
     }
     /**
-     * <code>int32 playerId = 1;</code>
-     * @param value The playerId to set.
+     * <code>int32 clientId = 1;</code>
+     * @param value The clientId to set.
      * @return This builder for chaining.
      */
-    public Builder setPlayerId(int value) {
+    public Builder setClientId(int value) {
 
-      playerId_ = value;
+      clientId_ = value;
       bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 playerId = 1;</code>
+     * <code>int32 clientId = 1;</code>
      * @return This builder for chaining.
      */
-    public Builder clearPlayerId() {
+    public Builder clearClientId() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      playerId_ = 0;
+      clientId_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private com.google.protobuf.Internal.IntList playerIds_ = emptyIntList();
+    private void ensurePlayerIdsIsMutable() {
+      if (!playerIds_.isModifiable()) {
+        playerIds_ = makeMutableCopy(playerIds_);
+      }
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>repeated int32 playerIds = 2;</code>
+     * @return A list containing the playerIds.
+     */
+    public java.util.List<java.lang.Integer>
+        getPlayerIdsList() {
+      playerIds_.makeImmutable();
+      return playerIds_;
+    }
+    /**
+     * <code>repeated int32 playerIds = 2;</code>
+     * @return The count of playerIds.
+     */
+    public int getPlayerIdsCount() {
+      return playerIds_.size();
+    }
+    /**
+     * <code>repeated int32 playerIds = 2;</code>
+     * @param index The index of the element to return.
+     * @return The playerIds at the given index.
+     */
+    public int getPlayerIds(int index) {
+      return playerIds_.getInt(index);
+    }
+    /**
+     * <code>repeated int32 playerIds = 2;</code>
+     * @param index The index to set the value at.
+     * @param value The playerIds to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPlayerIds(
+        int index, int value) {
+
+      ensurePlayerIdsIsMutable();
+      playerIds_.setInt(index, value);
+      bitField0_ |= 0x00000002;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated int32 playerIds = 2;</code>
+     * @param value The playerIds to add.
+     * @return This builder for chaining.
+     */
+    public Builder addPlayerIds(int value) {
+
+      ensurePlayerIdsIsMutable();
+      playerIds_.addInt(value);
+      bitField0_ |= 0x00000002;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated int32 playerIds = 2;</code>
+     * @param values The playerIds to add.
+     * @return This builder for chaining.
+     */
+    public Builder addAllPlayerIds(
+        java.lang.Iterable<? extends java.lang.Integer> values) {
+      ensurePlayerIdsIsMutable();
+      com.google.protobuf.AbstractMessageLite.Builder.addAll(
+          values, playerIds_);
+      bitField0_ |= 0x00000002;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated int32 playerIds = 2;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPlayerIds() {
+      playerIds_ = emptyIntList();
+      bitField0_ = (bitField0_ & ~0x00000002);
       onChanged();
       return this;
     }
@@ -461,10 +636,10 @@ private static final long serialVersionUID = 0L;
       if (!seasons_.isModifiable()) {
         seasons_ = new com.google.protobuf.LazyStringArrayList(seasons_);
       }
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @return A list containing the seasons.
      */
     public com.google.protobuf.ProtocolStringList
@@ -473,14 +648,14 @@ private static final long serialVersionUID = 0L;
       return seasons_;
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @return The count of seasons.
      */
     public int getSeasonsCount() {
       return seasons_.size();
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @param index The index of the element to return.
      * @return The seasons at the given index.
      */
@@ -488,7 +663,7 @@ private static final long serialVersionUID = 0L;
       return seasons_.get(index);
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @param index The index of the value to return.
      * @return The bytes of the seasons at the given index.
      */
@@ -497,7 +672,7 @@ private static final long serialVersionUID = 0L;
       return seasons_.getByteString(index);
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @param index The index to set the value at.
      * @param value The seasons to set.
      * @return This builder for chaining.
@@ -507,12 +682,12 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       ensureSeasonsIsMutable();
       seasons_.set(index, value);
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @param value The seasons to add.
      * @return This builder for chaining.
      */
@@ -521,12 +696,12 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       ensureSeasonsIsMutable();
       seasons_.add(value);
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @param values The seasons to add.
      * @return This builder for chaining.
      */
@@ -535,23 +710,23 @@ private static final long serialVersionUID = 0L;
       ensureSeasonsIsMutable();
       com.google.protobuf.AbstractMessageLite.Builder.addAll(
           values, seasons_);
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearSeasons() {
       seasons_ =
         com.google.protobuf.LazyStringArrayList.emptyList();
-      bitField0_ = (bitField0_ & ~0x00000002);;
+      bitField0_ = (bitField0_ & ~0x00000004);;
       onChanged();
       return this;
     }
     /**
-     * <code>repeated string seasons = 2;</code>
+     * <code>repeated string seasons = 3;</code>
      * @param value The bytes of the seasons to add.
      * @return This builder for chaining.
      */
@@ -561,7 +736,7 @@ private static final long serialVersionUID = 0L;
       checkByteStringIsUtf8(value);
       ensureSeasonsIsMutable();
       seasons_.add(value);
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }

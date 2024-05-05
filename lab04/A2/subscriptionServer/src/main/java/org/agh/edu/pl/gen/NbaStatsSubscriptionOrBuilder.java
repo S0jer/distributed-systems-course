@@ -9,30 +9,47 @@ public interface NbaStatsSubscriptionOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 playerId = 1;</code>
-   * @return The playerId.
+   * <code>int32 clientId = 1;</code>
+   * @return The clientId.
    */
-  int getPlayerId();
+  int getClientId();
 
   /**
-   * <code>repeated string seasons = 2;</code>
+   * <code>repeated int32 playerIds = 2;</code>
+   * @return A list containing the playerIds.
+   */
+  java.util.List<java.lang.Integer> getPlayerIdsList();
+  /**
+   * <code>repeated int32 playerIds = 2;</code>
+   * @return The count of playerIds.
+   */
+  int getPlayerIdsCount();
+  /**
+   * <code>repeated int32 playerIds = 2;</code>
+   * @param index The index of the element to return.
+   * @return The playerIds at the given index.
+   */
+  int getPlayerIds(int index);
+
+  /**
+   * <code>repeated string seasons = 3;</code>
    * @return A list containing the seasons.
    */
   java.util.List<java.lang.String>
       getSeasonsList();
   /**
-   * <code>repeated string seasons = 2;</code>
+   * <code>repeated string seasons = 3;</code>
    * @return The count of seasons.
    */
   int getSeasonsCount();
   /**
-   * <code>repeated string seasons = 2;</code>
+   * <code>repeated string seasons = 3;</code>
    * @param index The index of the element to return.
    * @return The seasons at the given index.
    */
   java.lang.String getSeasons(int index);
   /**
-   * <code>repeated string seasons = 2;</code>
+   * <code>repeated string seasons = 3;</code>
    * @param index The index of the value to return.
    * @return The bytes of the seasons at the given index.
    */

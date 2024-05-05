@@ -9,18 +9,24 @@ public interface SeasonAveragesRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 playerId = 1;</code>
+   * <code>int32 clientId = 1;</code>
+   * @return The clientId.
+   */
+  int getClientId();
+
+  /**
+   * <code>int32 playerId = 2;</code>
    * @return The playerId.
    */
   int getPlayerId();
 
   /**
-   * <code>string season = 2;</code>
+   * <code>string season = 3;</code>
    * @return The season.
    */
   java.lang.String getSeason();
   /**
-   * <code>string season = 2;</code>
+   * <code>string season = 3;</code>
    * @return The bytes for season.
    */
   com.google.protobuf.ByteString
