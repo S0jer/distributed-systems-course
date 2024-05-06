@@ -19,7 +19,7 @@ public class BoosterModel implements Booster {
         System.out.println(
                 "ObjectID: " + current.id +
                         " servantID: " + this.servantID +
-                        " called subtract" +
+                        " called booster" +
                         " result: " + sum
         );
         return sum;
