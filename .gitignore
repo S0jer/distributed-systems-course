@@ -96,8 +96,15 @@ lab04/I3/client/.idea
 lab04/I3/client/client/.idea
 lab04/I3/server/server/.idea
 lab04/.idea
-lab05/.idea
+lab04/gRPC/gRPC/.idea
+lab04/gRPC/protoc-26.1-win64/*
+lab04/gRPC/gen/*
+lab04/gRPC/gRPC/gen/*
+lab05/lab_rabbitmq/.idea
+lab05/lab_rabbitmq/out
+lab05/lab_rabbitmq/lab_rabbitmq.iml
 lab06/.idea
+lab06/apache-zookeeper-3.8.4-bin/*
 lab07/.idea
 
 .idea/*
