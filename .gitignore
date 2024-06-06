@@ -105,7 +105,7 @@ lab05/lab_rabbitmq/out
 lab05/lab_rabbitmq/lab_rabbitmq.iml
 lab06/.idea
 lab06/apache-zookeeper-3.8.4-bin/*
-lab07/.idea
+lab06/zookeeper/.idea/
 
 .idea/*
 
