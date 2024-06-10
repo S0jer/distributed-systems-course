@@ -22,80 +22,83 @@ public class App implements Watcher {
 
     @Override
     public void process(WatchedEvent event) {
-        if (event.getType() == Event.EventType.NodeCreated) {
-            handleNodeCreatedEvent(event);
-        } else if (event.getType() == Event.EventType.NodeDeleted) {
-            handleNodeDeletedEvent(event);
+        switch (event.getType()) {
+            case NodeCreated -> handleNodeCreated(event);
+            case NodeDeleted -> handleNodeDeleted(event);
+            default -> {
+            }
         }
     }
 
-    private void handleNodeCreatedEvent(WatchedEvent event) {
+    private void handleNodeCreated(WatchedEvent event) {
         System.out.println("zNode created, path: " + event.getPath());
         try {
-            printTree();
+            displayTree();
         } catch (IOException | InterruptedException | KeeperException e) {
             e.printStackTrace();
         }
 
-        if (Objects.equals(event.getPath(), "/a")) {
-            openExternalApp();
+        if ("/a".equals(event.getPath())) {
+            launchExternalApp();
         } else {
             try {
-                int numChildren = zooKeeper.getAllChildrenNumber("/a");
-                System.out.println("zNode /a number of children: " + numChildren);
+                int childrenCount = zooKeeper.getAllChildrenNumber("/a");
+                System.out.println("zNode /a number of children: " + childrenCount);
             } catch (KeeperException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void handleNodeDeletedEvent(WatchedEvent event) {
+    private void handleNodeDeleted(WatchedEvent event) {
         System.out.println("zNode deleted, path: " + event.getPath());
-        if (Objects.equals(event.getPath(), "/a")) {
-            System.out.println("Killing app");
+        if ("/a".equals(event.getPath())) {
+            System.out.println("Terminating app");
             if (process != null) {
                 process.destroy();
             }
         }
     }
 
-    private void openExternalApp() {
-        System.out.println("Opening app...");
-        String appLocation = "C:\\Users\\Paweł\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.Paint_8wekyb3d8bbwe\\mspaint.exe";
+    private void launchExternalApp() {
+        System.out.println("Launching external app...");
+        String appPath = "C:\\Users\\Paweł\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.Paint_8wekyb3d8bbwe\\mspaint.exe";
         try {
-            ProcessBuilder builder = new ProcessBuilder(appLocation);
-            process = builder.start();
+            ProcessBuilder processBuilder = new ProcessBuilder(appPath);
+            process = processBuilder.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void printTree() throws IOException, InterruptedException, KeeperException {
-        List<String> tree = getTree();
-        for (String child : tree) {
-            System.out.println(child);
-        }
+    private void displayTree() throws IOException, InterruptedException, KeeperException {
+        List<String> tree = buildTree();
+        tree.forEach(System.out::println);
     }
 
-    private List<String> getTree() throws InterruptedException, KeeperException {
+    private List<String> buildTree() throws InterruptedException, KeeperException {
         List<String> tree = new ArrayList<>();
-        traverseTree("/a", "", tree);
+        exploreTree("/a", "", tree);
         return tree;
     }
 
-    private void traverseTree(String node, String indent, List<String> tree) throws InterruptedException, KeeperException {
-        String formattedPath = formatNodePath(node);
-        tree.add(indent + formattedPath);
+    private void exploreTree(String node, String indent, List<String> tree) throws InterruptedException, KeeperException {
+        String formattedNode = formatPath(node);
+        tree.add(indent + formattedNode);
 
         List<String> children = zooKeeper.getChildren(node, false);
+        traverseChildren(node, indent, tree, children);
+    }
+
+    private void traverseChildren(String node, String indent, List<String> tree, List<String> children) throws InterruptedException, KeeperException {
         for (String child : children) {
-            String childNode = node + "/" + child;
-            traverseTree(childNode, indent + "\t", tree);
+            String childPath = node + "/" + child;
+            exploreTree(childPath, indent + "\t", tree);
         }
     }
 
-    private String formatNodePath(String nodePath) {
-        String[] parts = nodePath.split("/");
+    private String formatPath(String path) {
+        String[] parts = path.split("/");
         return "/" + parts[parts.length - 1];
     }
 }
